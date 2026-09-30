@@ -67,26 +67,35 @@ An honest self-assessment — **what I genuinely understand versus what I only r
 
 ## What's next
 
-Two phases. **Theory gaps first, then hands-on work.** The first four gaps are things you can compute with a calculator — fast to learn, immediately useful.
+**The goal is settled: becoming an Agent engineer.** The roadmap below is ordered by what that role actually weights, not by the generic order for "understanding models" — the same list of topics produces a different priority once the target changes.
 
-**Phase 1: close these eight gaps** (in order)
+**Phase 1: close the gaps** (ordered by weight for an Agent engineer)
 
-1. Sampling and decoding — the segment from logits to final output
-2. The memory budget — compute the footprint of weights, KV cache and activations yourself
-3. Batching and throughput — understand where vLLM actually gets its speed
-4. Evaluation — build a way to tell whether a change is an improvement
-5. The full RAG pipeline
-6. Fine-tuning in practice
-7. MoE and long context
-8. Multimodal
+| Order | Gap | Why it sits here |
+|---|---|---|
+| 1 | **Evaluation** | Agents live or die by evals, not vibes — and it's the only item on the list that needs to be mastered |
+| 2 | **RAG and context engineering** | An agent is, at bottom, a context-management problem: chunking, retrieval, compression, memory |
+| 3 | **Sampling and decoding** | Format stability for tool calls and how to set temperature both depend on it |
+| 4 | **Tool calling and MCP** | The line between "can write prompts" and "can orchestrate a system" |
+| 5 | **Fine-tuning in practice** | Deciding when to fine-tune versus using RAG |
+| 6 | Memory budget, batching, throughput | Only needed if self-hosting; otherwise recognition is enough |
+| 7 | MoE, long context | Keeping up with mainstream architecture |
 
-**Phase 2: three hands-on projects**
+> A more granular breakdown lives in [chapter 11.6](notes/11-学习路线与职业定位.md) (in Chinese), which has a line-by-line table of how much of each stage an Agent engineer actually needs.
 
-- **nanoGPT** — get the full training-and-generation loop running from scratch. The point isn't a useful model; it's that "the model" stops being a black box. Then move on.
-- **Deploy an open-source model yourself** — vLLM or llama.cpp, benchmark throughput and memory, and check whether the curves match the theoretical budget.
-- **LoRA fine-tune on one concrete task** — with a before/after evaluation, otherwise you never learn when to fine-tune and when to use RAG instead.
+**Phase 2: hands-on work** (order matters)
 
-> Two things I'm deliberately **not** doing: pretraining a large model from scratch (needs a large team and millions of dollars — pointless solo), and chasing research papers (the engineering layer comes first).
+1. **Write a ReAct loop by hand** — no framework. The point is seeing exactly what each step calls.
+2. **Add retrieval and memory** — handling long-conversation compression and long-term memory.
+3. **Build an eval suite** — task success rate, trajectory evaluation, regression set. This is what separates you from other candidates.
+4. **Add tracing and logging** — so you can locate which step failed.
+5. **Only now bring in LangGraph / MCP** — you'll understand what the framework is doing for you. People who start with the framework tend to get stuck on "my agent keeps failing and I don't know why".
+
+**Phase 3: demystifying training (not a career direction)**
+
+Run nanoGPT locally through the full training-and-generation loop. The only three things worth seeing clearly: **how loss comes down, what overfitting looks like, and what happens when you move a hyperparameter**. Two or three days, then put it down.
+
+> Three things I'm deliberately **not** doing: pretraining a large model from scratch (the data pipeline and parallelism don't transfer to Agent work at all); chasing research papers; and filling in the memory budget or batching theory just for completeness (unless self-hosting).
 
 ## Known information loss
 
